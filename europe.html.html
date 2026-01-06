@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Cartographie des laboratoires</title>
+
+  <!-- Leaflet CSS -->
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+  />
+
+  <style>
+    body {
+      font-family: "Segoe UI", Arial, sans-serif;
+      margin: 0;
+      background-color: #f2f4f7;
+    }
+
+    h2 {
+      text-align: center;
+      margin: 20px 0 5px 0;
+      color: #2c3e50;
+    }
+
+    .subtitle {
+      text-align: center;
+      font-style: italic;
+      color: #666;
+      margin-bottom: 15px;
+    }
+
+    /* 🔹 Layout global */
+    .container {
+      display: flex;
+      height: calc(100vh - 110px);
+      padding: 0 15px 15px 15px;
+      box-sizing: border-box;
+    }
+
+    /* 🔹 Carte à gauche */
+    #map {
+      flex: 2;
+      margin-right: 15px;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+
+    /* 🔹 Panneau à droite */
+    #info-panel {
+      flex: 1;
+      padding: 18px;
+      border-radius: 10px;
+      background: white;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      overflow-y: auto;
+    }
+
+    #info-panel h3 {
+      margin-top: 0;
+      color: #34495e;
+      border-bottom: 2px solid #e0e0e0;
+      padding-bottom: 6px;
+    }
+
+    /* 🔹 Bloc labo */
+    .labo-block {
+      margin-bottom: 14px;
+      padding: 10px;
+      background: #f9fbfd;
+      border-radius: 8px;
+      border-left: 4px solid #4a90e2;
+      text-align: center; /* 👈 centre tout le contenu */
+    }
+
+    .labo-block strong {
+      display: block;
+      text-align: center;   /* 👈 nom centré */
+      color: #2c3e50;
+      margin-bottom: 4px;
+    }
+
+    .labo-block span {
+      color: #555;
+      font-size: 0.95em;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h2>Cartographie des laboratoires</h2>
+  <p class="subtitle">Cliquez sur une ville pour afficher les laboratoires.</p>
+
+  <div class="container">
+    <div id="map"></div>
+    <div id="info-panel">
+      <h3>Informations</h3>
+      <p>Sélectionnez une ville sur la carte.</p>
+    </div>
+  </div>
+
+  <!-- Leaflet JS -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+  <script>
+    /* =========================
+       1️⃣ CARTE BIEN CADRÉE FRANCE
+    ========================= */
+
+    const map = L.map('map').setView([46.7, 1.8], 6);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '© OpenStreetMap'
+    }).addTo(map);
+
+    /* =========================
+       2️⃣ DONNÉES
+    ========================= */
+
+    const villes = [
+      {
+        ville: "Paris",
+        lat: 48.85661342,
+        lon: 2.35222190,
+        laboratoires: [
+          { nom: "Laboratoire Paris 1", domaine: "Biologie moléculaire" },
+          { nom: "Laboratoire Paris 2", domaine: "Analyse clinique" }
+        ]
+      },
+      {
+        ville: "Toulouse",
+        lat: 43.60465221,
+        lon: 1.44420910,
+        laboratoires: [
+          { nom: "Laboratoire Toulouse 1", domaine: "Chimie analytique" },
+          { nom: "Laboratoire Toulouse 2", domaine: "Recherche pharmaceutique" }
+        ]
+      },
+      {
+        ville: "Strasbourg",
+        lat: 48.57340561,
+        lon: 7.75211109,
+        laboratoires: [
+          { nom: "Laboratoire Strasbourg", domaine: "Immunologie" }
+        ]
+      },
+      {
+        ville: "Rennes",
+        lat: 48.11726683,
+        lon: -1.67779262,
+        laboratoires: [
+          { nom: "Laboratoire Rennes", domaine: "Biotechnologies" }
+        ]
+      }
+    ];
+
+    /* =========================
+       3️⃣ PANNEAU DROIT
+    ========================= */
+
+    const infoPanel = document.getElementById("info-panel");
+
+    /* =========================
+       4️⃣ PINS → AFFICHAGE À DROITE
+    ========================= */
+
+    villes.forEach(ville => {
+
+      const marker = L.marker([ville.lat, ville.lon]).addTo(map);
+
+      marker.on("click", () => {
+
+        let html = `<h3>${ville.ville}</h3>`;
+
+        ville.laboratoires.forEach(labo => {
+          html += `
+            <div class="labo-block">
+              <strong>${labo.nom}</strong>
+              <span>${labo.domaine}</span>
+            </div>
+          `;
+        });
+
+        infoPanel.innerHTML = html;
+      });
+    });
+
+  </script>
+
+</body>
+</html>
