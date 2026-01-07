@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Cartographie des laboratoires</title>
+
+  <!-- Leaflet CSS -->
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+  />
+
+  <style>
+    body {
+      font-family: "Segoe UI", Arial, sans-serif;
+      margin: 0;
+      background-color: #f2f4f7;
+    }
+
+    h2 {
+      text-align: center;
+      margin: 20px 0 5px 0;
+      color: #2c3e50;
+    }
+
+    .subtitle {
+      text-align: center;
+      font-style: italic;
+      color: #666;
+      margin-bottom: 15px;
+    }
+
+    /* 🔹 Layout global */
+    .container {
+      display: flex;
+      height: calc(100vh - 110px);
+      padding: 0 15px 15px 15px;
+      box-sizing: border-box;
+    }
+
+    /* 🔹 Carte à gauche */
+    #map {
+      flex: 2;
+      margin-right: 15px;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+
+    /* 🔹 Panneau à droite */
+    #info-panel {
+      flex: 1;
+      padding: 18px;
+      border-radius: 10px;
+      background: white;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      overflow-y: auto;
+    }
+
+    /* 🔹 Titre ville centré */
+    #info-panel h3 {
+      margin-top: 0;
+      color: #34495e;
+      text-align: center;              /* 👈 centré */
+      border-bottom: 2px solid #e0e0e0;
+      padding-bottom: 6px;
+    }
+
+    /* 🔹 Ligne d’icônes déco */
+    .icons-row {
+      text-align: center;
+      font-size: 1.4em;
+      margin-bottom: 10px;
+    }
+
+    /* 🔹 Bloc labo */
+    .labo-block {
+      margin-bottom: 14px;
+      padding: 10px;
+      background: #f9fbfd;
+      border-radius: 8px;
+      border-left: 4px solid #4a90e2;
+      text-align: center;
+    }
+
+    .labo-block strong {
+      display: block;
+      text-align: center;
+      color: #2c3e50;
+      margin-bottom: 4px;
+    }
+
+    .labo-block span {
+      color: #555;
+      font-size: 0.95em;
+    }
+
+    /* 🔹 Icône devant chaque labo */
+    .labo-icon {
+      font-size: 1.2em;
+      margin-right: 4px;
+    }
+    /* Justification du texte dans les blocs labo */
+    .labo-block div {
+      text-align: justify;
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <h2>Cartographie des laboratoires</h2>
+  <p class="subtitle">Cliquez sur une ville pour afficher les laboratoires.</p>
+
+  <div class="container">
+    <div id="map"></div>
+    <div id="info-panel">
+      <h3>Informations</h3>
+      <div class="icons-row">🌍 🔬 🐶 🐱</div>
+      <p style="text-align:center;">Sélectionnez une ville sur la carte.</p>
+    </div>
+  </div>
+
+  <!-- Leaflet JS -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+  <script>
+    /* =========================
+       1️⃣ CARTE BIEN CADRÉE FRANCE
+    ========================= */
+
+    const map = L.map('map').setView([46.7, 1.8], 6);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '© OpenStreetMap'
+    }).addTo(map);
+
+    /* =========================
+       2️⃣ DONNÉES
+    ========================= */
+
+    const villes = [
+      {
+        ville: "Paris",
+        lat: 48.85661342,
+        lon: 2.35222190,
+        laboratoires: [
+          { nom: "Proteom'ic", méthodes: "Analyses protéomiques par nanoLC-MS/MS (timsTOF HT & Pro2), quantification protéique globale et ciblée, étude des interactions protéiques (Co-IP, AP-MS, BioID), analyse des modifications post-traductionnelles (phosphorylation, glycosylation…), protéomique de tissus FFPE et fluides biologiques, analyse statistique et fonctionnelle des données omiques.", type: "Public", lien: "institutcochin.fr/plateformes/proteomic" },
+        ]
+      },
+      {
+        ville: "Toulouse",
+        lat: 43.60465221,
+        lon: 1.44420910,
+        laboratoires: [
+          { nom: "ProteoToul", domaine: "Proteomics and Mass Spectrometry of Biomolecules", méthodes: "Analyses protéomiques par spectrométrie de masse (nanoLC-MS/MS), identification et quantification de protéines dans des mélanges complexes, analyse des modifications post-traductionnelles, quantification ciblée et différentiée, caractérisation des protéines et des complexes protéiques, approaches structurales par MS, interactomique et analyse bioinformatique des données, avec accompagnement pour projets académiques et industriels.", type: "Public", lien: "proteotoul.ipbs.fr" },
+        ]
+      },
+      {
+        ville: "Strasbourg",
+        lat: 48.57340561,
+        lon: 7.75211109,
+        laboratoires: [
+          { nom: "IGBMC Plateforme Protéomique", méthodes: "Synthèse de peptides, analyse de protéines et protéomes en solution ou en gel, caractérisation des modifications post-traductionnelles (phosphorylation, acétylation, ubiquitination, glycosylation), quantification des protéines (label-free, SILAC, TMT, iTRAQ), vérification de masses moléculaires, études structurales (ponts disulfure, XL-MS), analyses bio-informatiques et statistiques (R, Python, Perseus) et développement méthodologique en collaboration scientifique.", type: "Public", lien: "igbmc.fr/plateformes-technologiques/proteomique" },
+	  { nom: "LSMBO", domaine: "BioOrganic Mass Spectrometry Laboratory", méthodes: "Analyse structurale des peptides et protéines par spectrométrie de masse, développement de nouvelles méthodes en protéomique et bio-informatique, étude des interactions protéine/protéine dans des complexes de grande taille, protéomique structurale, caractérisation complète de protéines naturelles ou recombinantes à usage thérapeutique, toxicoprotéomique, analyse des interactions protéine/médicament et collaboration avec l’industrie pharmaceutique.", type: "Public", lien: "plateforme-psge.u-strasbg.fr" }
+        ]
+      },
+      {
+        ville: "Rennes",
+        lat: 48.11726683,
+        lon: -1.67779262,
+        laboratoires: [
+          { nom: "Protim Rennes", méthodes: "Préparation d’échantillons : extraction de protéines totales, fractionnement et purification (Electrophorèse 1D, UPLC, IEF), digestions enzymatiques ; protéomique shotgun : identification des protéines et partenaires protéiques par LC-MS/MS ; protéomique différentielle : quantification relative par Label-Free ; analyse des modifications post-traductionnelles, notamment phosphoprotéomes ; imagerie MALDI : détection in situ de protéines et petites molécules sur cryocoupes de tissus.", type: "Public", lien: "protim.eu" }
+        ]
+      },
+      {
+	ville: "Marseille",
+	lat: 43.311936197614095,
+	lon: 5.366800538914962,
+	laboratoires: [
+	  {nom: "Marseille Protéomique", méthodes: "Analyses protéomiques par spectrométrie de masse pour l’identification, la caractérisation et la quantification de protéines dans des mélanges complexes, étude des modifications post-traductionnelles, protéomique quantitative avec ou sans marquage (TMT, iTRAQ, SILAC, label-free, DIA), protéomique ciblée (PRM), interactomique et complexomique (IP-MS, AP-MS, APEX-MS, BirA-MS), protéomique structurale (mobilité ionique, HDX-MS, native MS), imagerie par spectrométrie de masse (MALDI-Imaging), chimio-protéomique, découverte de biomarqueurs, contrôle qualité de protéines thérapeutiques et analyses pour l’industrie pharmaceutique.", type: "Public", lien: "marseille-proteomique.univ-amu.fr" }
+	]
+      },
+      {
+	ville: "Bordeaux",
+	lat: 44.84573875115448,
+	lon: -0.5784620222740504,
+	laboratoires: [
+	  {nom: "Bordeaux Proteome", méthodes: "Protéomique d’expression différentielle et identification de biomarqueurs, analyses multi-omiques (protéines, lipides, polysaccharides), étude des modifications post-traductionnelles et du deep proteome, interactomique et analyse des complexes protéiques, protéomique structurale (crosslinking, HDX-MS, LiP-MS, top-down MS), imagerie par spectrométrie de masse (MALDI-MSI) pour l’étude spatiale des biomolécules dans les tissus, profilage de la glycosylation, analyses de cohortes cliniques et traitement avancé des données multi-modales.", type: "Public", lien: "proteome.u-bordeaux.fr" }
+	]
+      },
+      {
+	ville: "Dijon",
+	lat: 47.3215806,
+	lon: 5.0414701,
+	laboratoires: [
+	  {nom: "FILAB", méthodes: "Analyses protéomiques et développement de méthodes analytiques avancées pour l’étude des protéines et complexes protéiques, quantification et identification de protéines, étude des modifications post-traductionnelles, accompagnement de projets académiques et industriels, prestations analytiques sur mesure et développement méthodologique pour la recherche en biologie et sciences de la vie.", type: "Privé", lien: "filab.fr" }
+	]
+      },
+      {
+	ville: "Montpellier",
+	lat: 43.6112422,
+	lon: 3.8767337,
+	laboratoires: [
+	  {nom: "Pôle Protéome Montpellier", méthodes: "Analyses protéomiques quantitatives à grande échelle par spectrométrie de masse, protéomique clinique, caractérisation moléculaire, fonctionnelle et structurale des interactions protéine-protéine et protéine/petite molécule (MS et résonance plasmonique de surface), phosphoprotéomique ciblée et à haut débit en biologie végétale et animale, ainsi que développement et mise en œuvre de méthodes avancées en protéomique appliquée à la recherche biomédicale.", type: "Public", lien: "ppm.cnrs.fr" }
+	]
+      },
+      {
+	ville: "Clermont-Ferrand",
+	lat: 45.7774551,
+	lon: 3.0819427,
+	laboratoires: [
+	  {nom: "PFEM", méthodes: "Études métabolomiques et protéomiques appliquées à la nutrition, la santé, l’environnement et la qualité des produits alimentaires ; mise à disposition de concepts, méthodes et outils pour l’étude du métabolisme ; analyses métabolomiques intégrées dans l’infrastructure nationale MetaboHUB ; accompagnement de projets de recherche pour partenaires académiques et industriels ; expertise en nutrition humaine, chimie et qualité des produits animaux.", type: "Public", lien: "https://pfem.isc.inrae.fr" }
+	]
+      },
+      {
+	ville: "Grenoble",
+	lat: 45.1875602,
+	lon: 5.7357819,
+	laboratoires: [
+	  {nom: "Grenoble Proteomics (EDyP)", domaine: "Exploring the Dynamics of Proteomes", méthodes: "Développement de méthodes analytiques basées sur la spectrométrie de masse, protéomique label-free et ciblée pour la recherche de biomarqueurs et l’étude des pathologies moléculaires, analyse de données protéomiques via des outils informatiques et logiciels dédiés, prestation de services protéomiques pour partenaires académiques et industriels, et support méthodologique en protéomique translationnelle et fondamentale.", type: "Public", lien: "edyp.fr/web" }
+	]
+      },
+      {
+	ville: "Lyon",
+	lat: 45.7578137,
+	lon: 4.8320114,
+	laboratoires: [
+	  {nom: "PSF Lyon", domaine: "A définir", méthodes: "Analyse de mélanges protéiques complexes, caractérisation des modifications post-traductionnelles (phosphorylation, acétylation…), quantification relative par approches marquées (iTRAQ, TMT, SILAC) ou label-free (LFQ), étude des interactions protéiques après immunoprécipitation, analyses structurales de protéines, spectrométrie de masse (MALDI-TOF, ESI-Orbitrap) et développement d’outils bioinformatiques pour l’exploitation des données.", type: "Public", lien: "https://www.sfr-biosciences.fr/plateformes/protein-sciences" }
+	]
+      },
+      {
+        ville: "Lille",
+        lat: 50.6365654,
+        lon: 3.0635282,
+        laboratoires: [
+          { nom: "MS4OMICS", domaine: "Mass Spectrometry Platform for Omics", méthodes: "Analyses protéomiques par LC‑MS/MS (timsTOF Pro, timsTOF HT, Orbitrap Eclipse), quantification globale (label-free, TMT) et ciblée (PRM, MRM), étude des interactions protéiques (Co-IP, cross-linking MS), recherche de modifications post-traductionnelles (phosphorylation, glycosylation, acétylation…), imagerie par spectrométrie de masse (MALDI‑MSI, DESI‑MSI) sur tissus FFPE ou frais, analyses multi-omiques intégrées (protéome, transcriptome, métabolome), traitement bioinformatique avancé (statistique, annotation fonctionnelle, réseaux).", type: "Public", lien: "organomics.univ-lille.fr/ms4omics" }
+        ]
+      },
+    ];
+
+    /* =========================
+       3️⃣ PANNEAU DROIT
+    ========================= */
+
+    const infoPanel = document.getElementById("info-panel");
+
+    /* =========================
+       4️⃣ PINS → AFFICHAGE À DROITE
+    ========================= */
+
+    villes.forEach(ville => {
+
+      const marker = L.marker([ville.lat, ville.lon]).addTo(map);
+
+      marker.on("click", () => {
+
+        let html = `
+          <h3>${ville.ville}</h3>
+          <div class="icons-row">🌍 🔬 🐶 🐱</div>
+        `;
+
+ville.laboratoires.forEach(labo => {
+
+  const domaineHTML = labo.domaine
+    ? `<div><b>Domaine :</b> ${labo.domaine}</div>`
+    : "";
+
+  html += `
+    <div class="labo-block">
+      <strong>
+        <span class="labo-icon">🔬</span>${labo.nom}
+      </strong>
+
+      ${domaineHTML}
+      <div><b>Type :</b> ${labo.type}</div>
+      <div class="methodes"><b>Méthodes :</b> ${labo.méthodes || "Non renseigné"}</div>
+
+      <div>
+        <b>Site :</b>
+        <a href="https://${labo.lien.replace(/^https?:\/\//,'')}" target="_blank">
+          ${labo.lien}
+        </a>
+      </div>
+    </div>
+  `;
+});
+
+        // 👉 On affiche tout dans le panneau droit
+        infoPanel.innerHTML = html;
+
+      });
+    });
+  </script>
+
+</body>
+</html>
+
+
