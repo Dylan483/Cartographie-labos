@@ -129,7 +129,7 @@
        1️⃣ CARTE BIEN CADRÉE FRANCE
     ========================= */
 
-    const map = L.map('map').setView([46.7, 1.8], 6);
+    const map = L.map('map').setView([20, 0], 2);
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '© OpenStreetMap'
@@ -141,102 +141,403 @@
 
     const villes = [
       {
-        ville: "Paris",
-        lat: 48.85661342,
-        lon: 2.35222190,
-        laboratoires: [
-          { nom: "Proteom'ic", méthodes: "Analyses protéomiques par nanoLC-MS/MS (timsTOF HT & Pro2), quantification protéique globale et ciblée, étude des interactions protéiques (Co-IP, AP-MS, BioID), analyse des modifications post-traductionnelles (phosphorylation, glycosylation…), protéomique de tissus FFPE et fluides biologiques, analyse statistique et fonctionnelle des données omiques.", type: "Public", lien: "institutcochin.fr/plateformes/proteomic" },
-        ]
-      },
-      {
-        ville: "Toulouse",
-        lat: 43.60465221,
-        lon: 1.44420910,
-        laboratoires: [
-          { nom: "ProteoToul", domaine: "Proteomics and Mass Spectrometry of Biomolecules", méthodes: "Analyses protéomiques par spectrométrie de masse (nanoLC-MS/MS), identification et quantification de protéines dans des mélanges complexes, analyse des modifications post-traductionnelles, quantification ciblée et différentiée, caractérisation des protéines et des complexes protéiques, approaches structurales par MS, interactomique et analyse bioinformatique des données, avec accompagnement pour projets académiques et industriels.", type: "Public", lien: "proteotoul.ipbs.fr" },
-        ]
-      },
-      {
-        ville: "Strasbourg",
-        lat: 48.57340561,
-        lon: 7.75211109,
-        laboratoires: [
-          { nom: "IGBMC Plateforme Protéomique", méthodes: "Synthèse de peptides, analyse de protéines et protéomes en solution ou en gel, caractérisation des modifications post-traductionnelles (phosphorylation, acétylation, ubiquitination, glycosylation), quantification des protéines (label-free, SILAC, TMT, iTRAQ), vérification de masses moléculaires, études structurales (ponts disulfure, XL-MS), analyses bio-informatiques et statistiques (R, Python, Perseus) et développement méthodologique en collaboration scientifique.", type: "Public", lien: "igbmc.fr/plateformes-technologiques/proteomique" },
-	  { nom: "LSMBO", domaine: "BioOrganic Mass Spectrometry Laboratory", méthodes: "Analyse structurale des peptides et protéines par spectrométrie de masse, développement de nouvelles méthodes en protéomique et bio-informatique, étude des interactions protéine/protéine dans des complexes de grande taille, protéomique structurale, caractérisation complète de protéines naturelles ou recombinantes à usage thérapeutique, toxicoprotéomique, analyse des interactions protéine/médicament et collaboration avec l’industrie pharmaceutique.", type: "Public", lien: "plateforme-psge.u-strasbg.fr" }
-        ]
-      },
-      {
-        ville: "Rennes",
-        lat: 48.11726683,
-        lon: -1.67779262,
-        laboratoires: [
-          { nom: "Protim Rennes", méthodes: "Préparation d’échantillons : extraction de protéines totales, fractionnement et purification (Electrophorèse 1D, UPLC, IEF), digestions enzymatiques ; protéomique shotgun : identification des protéines et partenaires protéiques par LC-MS/MS ; protéomique différentielle : quantification relative par Label-Free ; analyse des modifications post-traductionnelles, notamment phosphoprotéomes ; imagerie MALDI : détection in situ de protéines et petites molécules sur cryocoupes de tissus.", type: "Public", lien: "protim.eu" }
-        ]
-      },
-      {
-	ville: "Marseille",
-	lat: 43.311936197614095,
-	lon: 5.366800538914962,
+	ville: "Marloie",
+	lat: 50.2025003,
+	lon: 5.3139556,
 	laboratoires: [
-	  {nom: "Marseille Protéomique", méthodes: "Analyses protéomiques par spectrométrie de masse pour l’identification, la caractérisation et la quantification de protéines dans des mélanges complexes, étude des modifications post-traductionnelles, protéomique quantitative avec ou sans marquage (TMT, iTRAQ, SILAC, label-free, DIA), protéomique ciblée (PRM), interactomique et complexomique (IP-MS, AP-MS, APEX-MS, BirA-MS), protéomique structurale (mobilité ionique, HDX-MS, native MS), imagerie par spectrométrie de masse (MALDI-Imaging), chimio-protéomique, découverte de biomarqueurs, contrôle qualité de protéines thérapeutiques et analyses pour l’industrie pharmaceutique.", type: "Public", lien: "marseille-proteomique.univ-amu.fr" }
+	  {nom: "CER Groupe", domaine: "Protéomique, peptidomique", méthodes: "LC‑MS/MS, HPLC/UPLC, PTM, peptidomique, métabolomique ciblée, analyse matrices animales, contaminants", type: "Public", tarif: "150€-400€", lien: "https://www.cergroupe.be" }
 	]
       },
       {
-	ville: "Bordeaux",
-	lat: 44.84573875115448,
-	lon: -0.5784620222740504,
+	ville: "Schlieren",
+	lat: 47.3965147,
+	lon: 8.4444861,
 	laboratoires: [
-	  {nom: "Bordeaux Proteome", méthodes: "Protéomique d’expression différentielle et identification de biomarqueurs, analyses multi-omiques (protéines, lipides, polysaccharides), étude des modifications post-traductionnelles et du deep proteome, interactomique et analyse des complexes protéiques, protéomique structurale (crosslinking, HDX-MS, LiP-MS, top-down MS), imagerie par spectrométrie de masse (MALDI-MSI) pour l’étude spatiale des biomolécules dans les tissus, profilage de la glycosylation, analyses de cohortes cliniques et traitement avancé des données multi-modales.", type: "Public", lien: "proteome.u-bordeaux.fr" }
+	  {nom: "Biognosys AG", domaine: "Protéomique, peptidomique", méthodes: "DIA‑MS, LC‑MS/MS, PTM, quantification avancée, analyse peptides, matrices complexes", type: "Privé", tarif: "400€-900€", lien: "https://www.biognosys.com" }
 	]
       },
       {
-	ville: "Dijon",
-	lat: 47.3215806,
-	lon: 5.0414701,
+	ville: "Wageningen",
+	lat: 51.9663016,
+	lon: 5.6662814,
 	laboratoires: [
-	  {nom: "FILAB", méthodes: "Analyses protéomiques et développement de méthodes analytiques avancées pour l’étude des protéines et complexes protéiques, quantification et identification de protéines, étude des modifications post-traductionnelles, accompagnement de projets académiques et industriels, prestations analytiques sur mesure et développement méthodologique pour la recherche en biologie et sciences de la vie.", type: "Privé", lien: "filab.fr" }
+	  {nom: "Wageningen University", domaine: "Protéomique", méthodes: "LC‑MS/MS, PTM, HPLC, analyse protéines alimentaires, peptidomique", type: "Public", tarif: "200€-450€", lien: "https://www.wur.nl" }
 	]
       },
       {
-	ville: "Montpellier",
-	lat: 43.6112422,
-	lon: 3.8767337,
+	ville: "Stockholm",
+	lat: 59.3251172,
+	lon: 18.0710935,
 	laboratoires: [
-	  {nom: "Pôle Protéome Montpellier", méthodes: "Analyses protéomiques quantitatives à grande échelle par spectrométrie de masse, protéomique clinique, caractérisation moléculaire, fonctionnelle et structurale des interactions protéine-protéine et protéine/petite molécule (MS et résonance plasmonique de surface), phosphoprotéomique ciblée et à haut débit en biologie végétale et animale, ainsi que développement et mise en œuvre de méthodes avancées en protéomique appliquée à la recherche biomédicale.", type: "Public", lien: "ppm.cnrs.fr" }
+	  {nom: "SciLifeLab", domaine: "Protéomique, peptidomique", méthodes: "LC‑MS/MS, DIA, TMT, PTM, HPLC, peptidomique, métabolomique ciblée", type: "Public", tarif: "200€-500€", lien: "https://www.scilifelab.se" }
 	]
       },
       {
-	ville: "Clermont-Ferrand",
-	lat: 45.7774551,
-	lon: 3.0819427,
+	ville: "Zurich",
+	lat: 47.3744489,
+	lon: 8.5410422,
 	laboratoires: [
-	  {nom: "PFEM", méthodes: "Études métabolomiques et protéomiques appliquées à la nutrition, la santé, l’environnement et la qualité des produits alimentaires ; mise à disposition de concepts, méthodes et outils pour l’étude du métabolisme ; analyses métabolomiques intégrées dans l’infrastructure nationale MetaboHUB ; accompagnement de projets de recherche pour partenaires académiques et industriels ; expertise en nutrition humaine, chimie et qualité des produits animaux.", type: "Public", lien: "https://pfem.isc.inrae.fr" }
+	  {nom: "FGCZ – Functional Genomics Center Zurich", domaine: "Protéomique, métabolomique", méthodes: "LC‑MS/MS, DIA, PTM, HPLC, métabolomique, analyse matrices complexes", type: "Public", tarif: "250€-600€", lien: "https://fgcz.ch" }
 	]
       },
       {
-	ville: "Grenoble",
-	lat: 45.1875602,
-	lon: 5.7357819,
+	ville: "Lausanne",
+	lat: 46.5218269,
+	lon: 6.6327025,
 	laboratoires: [
-	  {nom: "Grenoble Proteomics (EDyP)", domaine: "Exploring the Dynamics of Proteomes", méthodes: "Développement de méthodes analytiques basées sur la spectrométrie de masse, protéomique label-free et ciblée pour la recherche de biomarqueurs et l’étude des pathologies moléculaires, analyse de données protéomiques via des outils informatiques et logiciels dédiés, prestation de services protéomiques pour partenaires académiques et industriels, et support méthodologique en protéomique translationnelle et fondamentale.", type: "Public", lien: "edyp.fr/web" }
+	  {nom: "University of Lausanne", domaine: "Protéomique", méthodes: "LC‑MS/MS, identification, quantification, PTM, HPLC", type: "Public", tarif: "180€-350€", lien: "https://www.unil.ch" }
 	]
       },
       {
-	ville: "Lyon",
-	lat: 45.7578137,
-	lon: 4.8320114,
+	ville: "Oslo",
+	lat: 59.9133301,
+	lon: 10.7389701,
 	laboratoires: [
-	  {nom: "PSF Lyon", domaine: "A définir", méthodes: "Analyse de mélanges protéiques complexes, caractérisation des modifications post-traductionnelles (phosphorylation, acétylation…), quantification relative par approches marquées (iTRAQ, TMT, SILAC) ou label-free (LFQ), étude des interactions protéiques après immunoprécipitation, analyses structurales de protéines, spectrométrie de masse (MALDI-TOF, ESI-Orbitrap) et développement d’outils bioinformatiques pour l’exploitation des données.", type: "Public", lien: "https://www.sfr-biosciences.fr/plateformes/protein-sciences" }
+	  {nom: "University of Oslo", domaine: "Protéomique", méthodes: "LC‑MS/MS, PTM, HPLC, analyse protéines complexes", type: "Public", tarif: "150€-300€", lien: "https://www.med.uio.no" }
 	]
       },
       {
-        ville: "Lille",
-        lat: 50.6365654,
-        lon: 3.0635282,
-        laboratoires: [
-          { nom: "MS4OMICS", domaine: "Mass Spectrometry Platform for Omics", méthodes: "Analyses protéomiques par LC‑MS/MS (timsTOF Pro, timsTOF HT, Orbitrap Eclipse), quantification globale (label-free, TMT) et ciblée (PRM, MRM), étude des interactions protéiques (Co-IP, cross-linking MS), recherche de modifications post-traductionnelles (phosphorylation, glycosylation, acétylation…), imagerie par spectrométrie de masse (MALDI‑MSI, DESI‑MSI) sur tissus FFPE ou frais, analyses multi-omiques intégrées (protéome, transcriptome, métabolome), traitement bioinformatique avancé (statistique, annotation fonctionnelle, réseaux).", type: "Public", lien: "organomics.univ-lille.fr/ms4omics" }
-        ]
+	ville: "Martinsried",
+	lat: 48.10882,
+	lon: 11.4508007,
+	laboratoires: [
+	  {nom: "Max Planck Institute", domaine: "Protéomique", méthodes: "LC‑MS/MS Orbitrap, PTM, complexes protéiques, HPLC", type: "Public", tarif: "200€-400€", lien: "https://www.biochem.mpg.de" }
+	]
       },
+      {
+	ville: "Cologne",
+	lat: 50.938361,
+	lon: 6.959974,
+	laboratoires: [
+	  {nom: "University of Cologne", domaine: "Protéomique", méthodes: "LC‑MS/MS, PTM, analyses ciblées, HPLC", type: "Public", tarif: "150€-300€", lien: 
+"https://www.cecad.uni-koeln.de" }
+	]
+      },
+      {
+	ville: "Tübingen",
+	lat: 48.5203263,
+	lon: 9.053596,
+	laboratoires: [
+	  {nom: "University of Tübingen", domaine: "Protéomique", méthodes: "LC‑MS/MS, identification, quantification, HPLC", type: "Public", tarif: "150€-300€", lien: 
+"https://uni-tuebingen.de" }
+	]
+      },
+{
+  ville: "San Jose",
+  lat: 37.338207,
+  lon: -121.886330,
+  laboratoires: [
+    {
+      nom: "Thermo Fisher Precision Omics Services",
+      domaine: "Protéomique, peptidomique",
+      méthodes: "LC-MS/MS, DIA, PTM, HPLC, peptidomique, métabolomique ciblée",
+      type: "Privé",
+      tarif: "500€-1200€",
+      lien: "https://www.thermofisher.com"
+    }
+  ]
+},
+{
+  ville: "Berlin",
+  lat: 52.520008,
+  lon: 13.404954,
+  laboratoires: [
+    {
+      nom: "Proteome Factory",
+      domaine: "Protéomique",
+      méthodes: "LC-MS/MS, PTM, peptidomique, HPLC",
+      type: "Privé",
+      tarif: "300€-700€",
+      lien: "https://www.proteomefactory.com"
+    }
+  ]
+},
+{
+  ville: "New York",
+  lat: 40.712776,
+  lon: -74.005974,
+  laboratoires: [
+    {
+      nom: "Creative Proteomics",
+      domaine: "Protéomique, peptidomique",
+      méthodes: "LC-MS/MS, DIA, PTM, peptidomique, métabolomique",
+      type: "Privé",
+      tarif: "300€-800€",
+      lien: "https://www.creative-proteomics.com"
+    }
+  ]
+},
+{
+  ville: "Beijing",
+  lat: 39.904202,
+  lon: 116.407394,
+  laboratoires: [
+    {
+      nom: "Biomarker Technologies",
+      domaine: "Protéomique",
+      méthodes: "LC-MS/MS, DIA, PTM, peptidomique, métabolomique",
+      type: "Privé",
+      tarif: "200€-500€",
+      lien: "https://www.biomarker.com.cn"
+    },
+    {
+      nom: "Novogene Proteomics",
+      domaine: "Protéomique",
+      méthodes: "LC-MS/MS, DIA, PTM, HPLC, peptidomique",
+      type: "Privé",
+      tarif: "200€-450€",
+      lien: "https://en.novogene.com"
+    }
+  ]
+},
+{
+  ville: "Shanghai",
+  lat: 31.230416,
+  lon: 121.473701,
+  laboratoires: [
+    {
+      nom: "Shanghai Applied Protein Technology (APTBio)",
+      domaine: "Protéomique",
+      méthodes: "LC-MS/MS, PTM, peptidomique, métabolomique ciblée",
+      type: "Privé",
+      tarif: "250€-600€",
+      lien: "https://www.aptbiotech.com"
+    }
+  ]
+},
+{
+  ville: "Perth",
+  lat: -31.952312,
+  lon: 115.861309,
+  laboratoires: [
+    {
+      nom: "Proteomics International",
+      domaine: "Protéomique",
+      méthodes: "LC-MS/MS, PTM, peptidomique, HPLC",
+      type: "Privé",
+      tarif: "300€-700€",
+      lien: "https://www.proteomics.com.au"
+    }
+  ]
+},
+{
+  ville: "Toronto",
+  lat: 43.653225,
+  lon: -79.383186,
+  laboratoires: [
+    {
+      nom: "University of Toronto – SPARC BioCentre",
+      domaine: "Protéomique",
+      méthodes: "LC-MS/MS, PTM, peptidomique, HPLC",
+      type: "Public",
+      tarif: "200€-400€",
+      lien: "https://www.sickkids.ca/research/sparc"
+    }
+  ]
+},
+{
+  ville: "Montréal",
+  lat: 45.501689,
+  lon: -73.567256,
+  laboratoires: [
+    {
+      nom: "McGill University – Proteomics Platform",
+      domaine: "Protéomique",
+      méthodes: "LC-MS/MS, PTM, peptidomique, HPLC",
+      type: "Public",
+      tarif: "200€-350€",
+      lien: "https://www.mcgill.ca"
+    }
+  ]
+},
+     {
+  ville: "Paris",
+  lat: 48.85661342,
+  lon: 2.35222190,
+  laboratoires: [
+    {
+      nom: "Proteom'ic",
+      domaine: "Protéomique",
+      méthodes: "NanoLC-MS/MS (timsTOF HT & Pro2), quantification globale et ciblée, interactomique (Co-IP, AP-MS, BioID), analyse des PTM (phosphorylation, glycosylation), protéomique FFPE et fluides biologiques, analyses bioinformatiques et fonctionnelles",
+      type: "Public",
+      tarif: "Aucune information",
+      lien: "https://institutcochin.fr/plateformes/proteomic"
+    }
+  ]
+},
+{
+  ville: "Toulouse",
+  lat: 43.60465221,
+  lon: 1.44420910,
+  laboratoires: [
+    {
+      nom: "ProteoToul",
+      domaine: "Protéomique, spectrométrie de masse",
+      méthodes: "NanoLC-MS/MS, identification et quantification de protéines, analyse des PTM, protéomique ciblée et différentielle, protéomique structurale, interactomique, analyses bioinformatiques",
+      type: "Public",
+      tarif: "Aucune information",
+      lien: "https://proteotoul.ipbs.fr"
+    }
+  ]
+},
+{
+  ville: "Strasbourg",
+  lat: 48.57340561,
+  lon: 7.75211109,
+  laboratoires: [
+    {
+      nom: "IGBMC Plateforme Protéomique",
+      domaine: "Protéomique",
+      méthodes: "Synthèse de peptides, protéomique LC-MS/MS, PTM (phosphorylation, glycosylation, ubiquitination), quantification (Label-free, SILAC, TMT, iTRAQ), analyses structurales (XL-MS), bioinformatique",
+      type: "Public",
+      tarif: "Aucune information",
+      lien: "https://www.igbmc.fr/plateformes-technologiques/proteomique"
+    },
+    {
+      nom: "LSMBO",
+      domaine: "Protéomique structurale, spectrométrie de masse bio-organique",
+      méthodes: "Analyse structurale peptides/protéines, protéomique avancée, bioinformatique, interactomique, toxicoprotéomique, protéines thérapeutiques",
+      type: "Public",
+      tarif: "Aucune information",
+      lien: "https://plateforme-psge.u-strasbg.fr"
+    }
+  ]
+},
+{
+  ville: "Rennes",
+  lat: 48.11726683,
+  lon: -1.67779262,
+  laboratoires: [
+    {
+      nom: "Protim Rennes",
+      domaine: "Protéomique",
+      méthodes: "Préparation d’échantillons, électrophorèse 1D, UPLC, IEF, LC-MS/MS, protéomique différentielle label-free, phosphoprotéomique, imagerie MALDI",
+      type: "Public",
+      tarif: "Aucune information",
+      lien: "https://www.protim.eu"
+    }
+  ]
+},
+{
+  ville: "Marseille",
+  lat: 43.311936197614095,
+  lon: 5.366800538914962,
+  laboratoires: [
+    {
+      nom: "Marseille Protéomique",
+      domaine: "Protéomique",
+      méthodes: "LC-MS/MS, protéomique quantitative (TMT, iTRAQ, SILAC, DIA), PRM, interactomique, complexomique, protéomique structurale, MALDI-Imaging, chimio-protéomique",
+      type: "Public",
+      tarif: "Aucune information",
+      lien: "https://marseille-proteomique.univ-amu.fr"
+    }
+  ]
+},
+{
+  ville: "Bordeaux",
+  lat: 44.84573875115448,
+  lon: -0.5784620222740504,
+  laboratoires: [
+    {
+      nom: "Bordeaux Proteome",
+      domaine: "Protéomique",
+      méthodes: "Protéomique différentielle, multi-omiques, PTM, interactomique, protéomique structurale (XL-MS, HDX-MS, LiP-MS), MALDI-MSI, analyses cliniques",
+      type: "Public",
+      tarif: "Aucune information",
+      lien: "https://proteome.u-bordeaux.fr"
+    }
+  ]
+},
+{
+  ville: "Dijon",
+  lat: 47.3215806,
+  lon: 5.0414701,
+  laboratoires: [
+    {
+      nom: "FILAB",
+      domaine: "Protéomique analytique",
+      méthodes: "LC-MS/MS, quantification et identification de protéines, PTM, développement de méthodes analytiques, prestations sur mesure",
+      type: "Privé",
+      tarif: "Aucune information",
+      lien: "https://www.filab.fr"
+    }
+  ]
+},
+{
+  ville: "Montpellier",
+  lat: 43.6112422,
+  lon: 3.8767337,
+  laboratoires: [
+    {
+      nom: "Pôle Protéome Montpellier",
+      domaine: "Protéomique",
+      méthodes: "LC-MS/MS quantitative, protéomique clinique, interactomique, protéomique structurale, phosphoprotéomique végétale et animale",
+      type: "Public",
+      tarif: "Aucune information",
+      lien: "https://www.ppm.cnrs.fr"
+    }
+  ]
+},
+{
+  ville: "Clermont-Ferrand",
+  lat: 45.7774551,
+  lon: 3.0819427,
+  laboratoires: [
+    {
+      nom: "PFEM",
+      domaine: "Métabolomique, protéomique",
+      méthodes: "Métabolomique et protéomique appliquées à la nutrition, santé, environnement, analyses intégrées MetaboHUB, accompagnement projets académiques et industriels",
+      type: "Public",
+      tarif: "Aucune information",
+      lien: "https://pfem.isc.inrae.fr"
+    }
+  ]
+},
+{
+  ville: "Grenoble",
+  lat: 45.1875602,
+  lon: 5.7357819,
+  laboratoires: [
+    {
+      nom: "Grenoble Proteomics (EDyP)",
+      domaine: "Protéomique",
+      méthodes: "Développement de méthodes MS, protéomique label-free et ciblée, biomarqueurs, analyse de données, protéomique translationnelle",
+      type: "Public",
+      tarif: "Aucune information",
+      lien: "https://edyp.fr/web"
+    }
+  ]
+},
+{
+  ville: "Lyon",
+  lat: 45.7578137,
+  lon: 4.8320114,
+  laboratoires: [
+    {
+      nom: "PSF Lyon",
+      domaine: "Protéomique",
+      méthodes: "LC-MS/MS, quantification marquée (TMT, iTRAQ, SILAC) et label-free, PTM, interactomique, MALDI-TOF, Orbitrap, bioinformatique",
+      type: "Public",
+      tarif: "Aucune information",
+      lien: "https://www.sfr-biosciences.fr/plateformes/protein-sciences"
+    }
+  ]
+},
+{
+  ville: "Lille",
+  lat: 50.6365654,
+  lon: 3.0635282,
+  laboratoires: [
+    {
+      nom: "MS4OMICS",
+      domaine: "Protéomique, multi-omiques",
+      méthodes: "LC-MS/MS (timsTOF, Orbitrap), TMT, PRM, interactomique, PTM, MALDI/DESI-MSI, analyses multi-omiques, bioinformatique avancée",
+      type: "Public",
+      tarif: "Aucune information",
+      lien: "https://organomics.univ-lille.fr/ms4omics"
+    }
+  ]
+},
     ];
 
     /* =========================
@@ -263,27 +564,33 @@
 ville.laboratoires.forEach(labo => {
 
   const domaineHTML = labo.domaine
-    ? `<div><b>Domaine :</b> ${labo.domaine}</div>`
-    : "";
+  ? `<div><b>Domaine :</b> ${labo.domaine}</div>`
+  : "";
+
+const tarifHTML = labo.tarif
+  ? `<div><b>Prix :</b> ${labo.tarif}</div>`
+  : "";
 
   html += `
-    <div class="labo-block">
-      <strong>
-        <span class="labo-icon">🔬</span>${labo.nom}
-      </strong>
+  <div class="labo-block">
+    <strong>
+      <span class="labo-icon">🔬</span>${labo.nom}
+    </strong>
 
-      ${domaineHTML}
-      <div><b>Type :</b> ${labo.type}</div>
-      <div class="methodes"><b>Méthodes :</b> ${labo.méthodes || "Non renseigné"}</div>
+    ${domaineHTML}
+    ${tarifHTML}
 
-      <div>
-        <b>Site :</b>
-        <a href="https://${labo.lien.replace(/^https?:\/\//,'')}" target="_blank">
-          ${labo.lien}
-        </a>
-      </div>
+    <div><b>Type :</b> ${labo.type}</div>
+    <div class="methodes"><b>Méthodes :</b> ${labo.méthodes || "Non renseigné"}</div>
+
+    <div>
+      <b>Site :</b>
+      <a href="https://${labo.lien.replace(/^https?:\/\//,'')}" target="_blank">
+        ${labo.lien}
+      </a>
     </div>
-  `;
+  </div>
+`;
 });
 
         // 👉 On affiche tout dans le panneau droit
